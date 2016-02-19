@@ -10,6 +10,7 @@ PHP data validation class that makes validating easy.
 1- Include the class into your project.
 ```php
 include 'validation.php';
+$validation = new Validation();
 
 $validation->set_rules([
     'fullname'  => 'required|min_len,3',

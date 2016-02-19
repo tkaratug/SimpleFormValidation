@@ -10,16 +10,16 @@ PHP data validation class that makes validating easy.
 1- Include the class into your project.
 ```php
 include 'validation.php';
-$validation = new Validation();
+$validator = new Validation();
 
-$validation->set_rules([
+$validator->set_rules([
     'fullname'  => 'required|min_len,3',
     'email'     => 'required|email',
     'age'       => 'required|numeric',
     'website'   => 'valid_url'
 ]);
 
-$validation->set_data([
+$validator->set_data([
     'fullname'  => $_POST['fullname'],
     'email'     => $_POST['email'],
     'age'       => $_POST['age'],

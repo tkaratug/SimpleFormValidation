@@ -14,6 +14,13 @@ if($_POST) {
 		'email'     => $_POST['email']
 	], true);
 			
+    
+    $validator->set_message([
+            'adsoyad'   => 'İsim Soyisim',
+            'email'     => 'Email'
+        ]
+    );
+    
 	if($validator->is_valid() !== true) {
 		echo '<div id="errors">';
 		foreach($validator->errors as $error) {

@@ -38,7 +38,12 @@ class Validation
             $this->data = $data;
     }
 
-    public function is_valid($data = [], $rules = [])
+    public function set_message($message)
+    {
+            $this->mesaj = $message;
+    }
+
+    public function is_valid($data = [], $rules = [], $mesaj = [] )
     {
         if( ! is_array($data) || ! is_array($rules) ) {
             return false;
@@ -52,6 +57,10 @@ class Validation
             $rules  = $this->rules;
         }
 
+        if( count($mesaj) == 0) {
+            $mesaj  = $this->mesaj;
+        }
+
         foreach($rules as $key => $value) {
             $parts = explode('|', $value);
 
@@ -62,10 +71,10 @@ class Validation
                     $params = $group[1];
 
                     if($this->$filter($data[$key], $params) === false)
-                        $this->errors[] = $this->get_error($filter . '_error', ['%s' => $key, '%t' => $params]);
+                        $this->errors[] = $this->get_error($filter . '_error', ['%s' => $mesaj[$key] ? $mesaj[$key] : $key , '%t' => $params]);
                 } else {
                     if ($this->$part($data[$key]) === false)
-                        $this->errors[] = $this->get_error($part . '_error', $key);
+                        $this->errors[] = $this->get_error($part . '_error', isset($mesaj[$key]) ? $mesaj[$key] : $key );
                 }
             }
         }

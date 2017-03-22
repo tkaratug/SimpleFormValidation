@@ -60,9 +60,14 @@ class Validation
                     $group  = explode(',', $part);
                     $filter = $group[0];
                     $params = $group[1];
-
-                    if($this->$filter($data[$key], $params) === false)
-                        $this->errors[] = $this->get_error($filter . '_error', ['%s' => $key, '%t' => $params]);
+                    
+                    if($filter == 'matches') {
+                        if($this->matches($data[$key], $data[$params]) === false)
+                            $this->errors[] = $this->get_error($filter . '_error', ['%s' => $key, '%t' => $params]);
+                    } else {
+                        if($this->$filter($data[$key], $params) === false)
+                            $this->errors[] = $this->get_error($filter . '_error', ['%s' => $key, '%t' => $params]);
+                    }                    
                 } else {
                     if ($this->$part($data[$key]) === false)
                         $this->errors[] = $this->get_error($part . '_error', $key);
@@ -111,7 +116,8 @@ class Validation
             'valid_cc_error'    => '%s alanı geçerli bir kredi kartı numarası olmalıdır',
             'contains_error'    => '%s alanı "%t" içermelidir',
             'min_numeric_error' => '%s alanı minimum "%t" değeri alabilir',
-            'max_numeric_error' => '%s alanı maximum "%t" değeri alabilir'
+            'max_numeric_error' => '%s alanı maximum "%t" değeri alabilir',
+            'matches_error'     => '%s alanı %t alanı ile eşleşmiyor'
         ];
 
         if( array_key_exists($key, $message) ) {
@@ -471,6 +477,20 @@ class Validation
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Matched Fields Validation
+     * @param   string $data
+     * @param   string $field
+     * @return  bool
+     */
+    protected function matches($data, $field)
+    {
+        if($data == $field)
+            return true;
+        else
+            return false;
     }
 
 }

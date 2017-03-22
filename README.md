@@ -55,3 +55,4 @@ if($validator->is_valid() !== true) {
 - **contains** ```the field must contain specified characters```
 - **min_numeric** ```the field must be minimum specified value```
 - **max_numeric** ```the field must be maximum specified value```
+- **matches** ```the field must match with specified field```
